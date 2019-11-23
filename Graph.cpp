@@ -6,6 +6,7 @@ from the roadmap built in robotic scenarios.*/
 #include <iostream>
 #include <sstream>
 #include <limits>
+#include <typeinfo>
 // #include <cstdlib>
 
 #include "Graph.hpp"
@@ -61,19 +62,26 @@ void Graph_t::specify_nodeStates(std::string samples_file, int nsamples)
 			ss >> temp_nodeIdx;
 			m_goalSet.push_back(temp_nodeIdx);
 			std::vector<float> temp_v;
-			int temp_counter2 = 0;
+			// a more general way to extract node state
 			while (ss >> c)
 			{
-				if (temp_counter2 < 7)
-				{
-					temp_v.push_back(c);
-				}
-				else // the index of the target poses
-				{
-					m_targetPoses.push_back(c);
-				}
-				temp_counter2++;
+				temp_v.push_back(c);
 			}
+			m_targetPoses.push_back(temp_v[temp_v.size()-1]);
+			temp_v.pop_back();
+			// int temp_counter2 = 0;
+			// while (ss >> c)
+			// {	
+			// 	if (temp_counter2 < 7)
+			// 	{
+			// 		temp_v.push_back(c);
+			// 	}
+			// 	else // the index of the target poses
+			// 	{
+			// 		m_targetPoses.push_back(c);
+			// 	}
+			// 	temp_counter2++;
+			// }
 			m_nodeStates.push_back(temp_v);
 		}
 
